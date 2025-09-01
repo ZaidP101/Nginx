@@ -6,6 +6,7 @@ import path from "path"
 import urlRouter from './routes/url.js'
 import {connectionDB} from "./db.js"
 import URL from "./model/url.js";
+import cors from 'cors'
 
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 
@@ -21,6 +22,8 @@ connectionDB().then(() => {
     console.log("Failed to connect to DB", error);
     process.exit(1);
 });
+
+app.use(cors());
 
 app.use(express.json());
 

@@ -170,7 +170,7 @@ function App() {
         {showAnalytics && analytics && (
           <div className="mt-6 bg-gray-200 p-4 rounded max-h-56 overflow-y-auto">
             <p className="font-semibold text-gray-800 mb-2">Analytics</p>
-            <p>Total Clicks: {analytics.totalclicks}</p>
+            <p>Total Clicks till now: {analytics.totalclicks}</p>
             <button
               onClick={() => setShowAnalytics(false)}
               className="mb-2 text-sm text-blue-600 underline"

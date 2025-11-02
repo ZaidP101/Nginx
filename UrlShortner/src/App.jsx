@@ -159,6 +159,7 @@ function App() {
               </button>
             </div>
 
+            {/* Test */}
             {/* QR Code */}
             <div className="flex justify-center">
               <QRCodeSVG value={`${baseURL}/${shortId}`} size={128} />

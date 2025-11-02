@@ -1,16 +1,36 @@
 import { useState, useRef, useCallback } from "react";
+import { QRCodeSVG } from "qrcode.react"; 
 
 function App() {
   const [mainUrl, setMainUrl] = useState("");
   const [shortId, setShortId] = useState("");
   const [originalUrl, setOriginalUrl] = useState("");
   const [analytics, setAnalytics] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [showAnalytics, setShowAnalytics] = useState(false);
   const inputRef = useRef(null);
 
   const baseURL = "http://localhost:8001";
 
+  const validateUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const handleShorten = async (e) => {
     e.preventDefault();
+    setErrorMsg("");
+    if (!validateUrl(mainUrl)) {
+      setErrorMsg("Please enter a valid URL");
+      return;
+    }
+    setLoading(true);
 
     try {
       const res = await fetch(`${baseURL}/url`, {
@@ -25,18 +45,24 @@ function App() {
         setShortId(data.id);
         setOriginalUrl("");
         setAnalytics(null);
+        setShowAnalytics(false);
       } else {
-        alert(data.error || "Failed to shorten URL.");
+        setErrorMsg(data.error || "Failed to shorten URL.");
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong.");
+      setErrorMsg("Something went wrong.");
     }
+    setLoading(false);
   };
 
   const copyToClipboard = useCallback(() => {
-    inputRef.current?.select();
-    navigator.clipboard.writeText(`${baseURL}/${shortId}`);
+    if (inputRef.current) {
+      inputRef.current.select();
+      navigator.clipboard.writeText(`${baseURL}/${shortId}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   }, [shortId]);
 
   const handleRedirect = async () => {
@@ -60,6 +86,7 @@ function App() {
       const res = await fetch(`${baseURL}/url/analytics/${shortId}`);
       const data = await res.json();
       setAnalytics(data);
+      setShowAnalytics(true);
     } catch (err) {
       console.error(err);
       alert("Failed to fetch analytics.");
@@ -73,7 +100,7 @@ function App() {
           URL Shortener
         </h1>
 
-        <form onSubmit={handleShorten} className="flex flex-col gap-4">
+        <form onSubmit={handleShorten} className="flex flex-col gap-2">
           <input
             type="url"
             placeholder="Enter long URL"
@@ -81,13 +108,19 @@ function App() {
             onChange={(e) => setMainUrl(e.target.value)}
             required
             className="border border-gray-300 rounded-md px-4 py-2"
+            disabled={loading}
           />
-
+          {errorMsg && (
+            <p className="text-red-500 text-sm mt-1">{errorMsg}</p>
+          )}
           <button
             type="submit"
-            className="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+            disabled={loading}
+            className={`py-2 rounded text-white ${
+              loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
           >
-            Shorten URL
+            {loading ? "Shortening..." : "Shorten URL"}
           </button>
         </form>
 
@@ -103,12 +136,12 @@ function App() {
               className="p-2 border rounded w-full text-center mb-3"
             />
 
-            <div className="flex gap-2 justify-center">
+            <div className="flex gap-2 justify-center mb-4">
               <button
                 onClick={copyToClipboard}
                 className="px-3 py-1 text-sm bg-indigo-500 text-white rounded hover:bg-indigo-600"
               >
-                Copy
+                {copied ? "Copied!" : "Copy"}
               </button>
 
               <button
@@ -125,14 +158,25 @@ function App() {
                 Analytics
               </button>
             </div>
+
+            {/* QR Code */}
+            <div className="flex justify-center">
+              <QRCodeSVG value={`${baseURL}/${shortId}`} size={128} />
+            </div>
           </div>
         )}
 
-        {analytics && (
-          <div className="mt-6 bg-gray-200 p-4 rounded">
-            <p className="font-semibold text-gray-800 mb-2"> Analytics</p>
+        {showAnalytics && analytics && (
+          <div className="mt-6 bg-gray-200 p-4 rounded max-h-56 overflow-y-auto">
+            <p className="font-semibold text-gray-800 mb-2">Analytics</p>
             <p>Total Clicks: {analytics.totalclicks}</p>
-            <ul className="text-sm mt-2 max-h-32 overflow-y-auto">
+            <button
+              onClick={() => setShowAnalytics(false)}
+              className="mb-2 text-sm text-blue-600 underline"
+            >
+              Hide Analytics
+            </button>
+            <ul className="text-sm">
               {analytics.Analytics.map((item, index) => (
                 <li key={index}>
                   {new Date(item.timestamp).toLocaleString()}

@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback } from "react";
-import { QRCodeSVG } from "qrcode.react"; 
 
 function App() {
   const [mainUrl, setMainUrl] = useState("");
@@ -110,9 +109,7 @@ function App() {
             className="border border-gray-300 rounded-md px-4 py-2"
             disabled={loading}
           />
-          {errorMsg && (
-            <p className="text-red-500 text-sm mt-1">{errorMsg}</p>
-          )}
+          {errorMsg && <p className="text-red-500 text-sm mt-1">{errorMsg}</p>}
           <button
             type="submit"
             disabled={loading}
@@ -160,11 +157,6 @@ function App() {
             </div>
 
             {/* Test */}
-            {/* QR Code */}
-            <div className="flex justify-center">
-              <QRCodeSVG value={`${baseURL}/${shortId}`} size={128} />
-            </div>
-            
           </div>
         )}
 
@@ -180,9 +172,7 @@ function App() {
             </button>
             <ul className="text-sm">
               {analytics.Analytics.map((item, index) => (
-                <li key={index}>
-                  {new Date(item.timestamp).toLocaleString()}
-                </li>
+                <li key={index}>{new Date(item.timestamp).toLocaleString()}</li>
               ))}
             </ul>
           </div>

@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-
+import { QRCodeSVG } from "qrcode.react";
 function App() {
   const [mainUrl, setMainUrl] = useState("");
   const [shortId, setShortId] = useState("");
@@ -157,6 +157,10 @@ function App() {
             </div>
 
             {/* Test */}
+            {/* QR Code */}
+            <div className="flex justify-center">
+              <QRCodeSVG value={`${baseURL}/${shortId}`} size={128} />
+            </div>
           </div>
         )}
 

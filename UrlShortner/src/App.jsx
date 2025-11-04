@@ -124,7 +124,6 @@ function App() {
         {shortId && (
           <div className="mt-6 bg-gray-50 p-4 rounded text-center">
             <p className="text-sm text-gray-700 mb-2">Your short URL:</p>
-
             <input
               ref={inputRef}
               type="text"
@@ -132,7 +131,6 @@ function App() {
               readOnly
               className="p-2 border rounded w-full text-center mb-3"
             />
-
             <div className="flex gap-2 justify-center mb-4">
               <button
                 onClick={copyToClipboard}
@@ -155,9 +153,7 @@ function App() {
                 Analytics
               </button>
             </div>
-
-            {/* Test */}
-            {/* QR Code */}
+            {/* Test */}\{/* QR Code */}
             <div className="flex justify-center">
               <QRCodeSVG value={`${baseURL}/${shortId}`} size={128} />
             </div>

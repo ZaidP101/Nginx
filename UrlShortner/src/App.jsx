@@ -1,6 +1,5 @@
 import { useState, useRef, useCallback } from "react";
 import { QRCodeSVG } from "qrcode.react";
-
 function App() {
   const [mainUrl, setMainUrl] = useState("");
   const [shortId, setShortId] = useState("");

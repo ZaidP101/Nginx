@@ -9,4 +9,6 @@ urlRouter.get('/:shortID', redirect);
 
 urlRouter.get('/analytics/:shortID', getanalytics)
 
+urlRouter.post('/custom', handleCustomAlias);
+
 export default urlRouter;

@@ -43,4 +43,30 @@ const getanalytics = async (req, res) =>{
         Analytics : result.visistHis, 
     })
 }
-export {handleShortURL, redirect, getanalytics};
+
+/////////////////////////////////////////////////////////
+const handleCustomAlias = async (req, res) => {
+  const { url, alias } = req.body;
+
+  if (!url || !alias) {
+    return res.status(400).json({ error: "URL and custom alias are required" });
+  }
+
+  const exists = await URL.findOne({ shortURL: alias });
+
+  if (exists) {
+    return res.status(400).json({ error: "Alias is already taken" });
+  }
+
+  await URL.create({
+    shortURL: alias,
+    originalURL: url,
+  });
+
+  return res.status(200).json({
+    message: "Custom short URL created",
+    alias,
+  });
+};
+
+export {handleShortURL, redirect, getanalytics, handleCustomAlias };

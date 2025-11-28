@@ -98,6 +98,12 @@ function App() {
         <h1 className="text-xl font-semibold text-center mb-4">
           URL Shortener
         </h1>
+        <a
+          href="/custom"
+          className="text-blue-600 underline block text-center mt-4"
+        >
+          Create Custom Alias →
+        </a>
 
         <form onSubmit={handleShorten} className="flex flex-col gap-2">
           <input

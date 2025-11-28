@@ -1,17 +1,123 @@
-# URL Shortener\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n\n## Description\n\nThis is a full-stack URL shortener application that allows users to shorten long URLs into shorter, more manageable links. The application consists of a React-based frontend (located in the `UrlShortner` directory) and a Node.js/Express backend (located in the `server` directory). The backend provides an API for creating and redirecting shortened URLs. The frontend provides a user interface for interacting with the API.\n\nThis project leverages MongoDB for database storage, allowing for persistent URL mapping between original and shortened URLs. The front-end includes QR code generation for shortened links, providing convenient access for mobile users.\n\n## Features\n\n*   **URL Shortening:** Converts long URLs into shorter, more manageable links.\n*   **Custom Short URLs (Potential):**  (This needs to be verified.  If implemented, update this.) Allows users to specify custom short URLs.\n*   **URL Redirection:** Redirects users to the original URL when they visit the shortened URL.\n*   **QR Code Generation:** Generates QR codes for shortened URLs for easy access via mobile devices.\n*   **User-Friendly Interface:**  Provides a clean and intuitive interface for URL shortening.\n*   **API Access:** Offers a RESTful API for programmatic URL shortening and retrieval.\n\n## Screenshots/Demos\n\n*(Placeholder: Insert screenshots or a demo video link here showing the application in action. Example:)*\n\n![](/path/to/screenshot1.png)\n![](/path/to/screenshot2.png)\n\n[Link to Demo Video](https://www.example.com/demo)\n\n## Installation\n\n1.  **Clone the repository:**\n    ```bash\n    git clone https://github.com/ZaidP101/ReadMePilot\n    cd ReadMePilot\n    ```\n\n2.  **Install dependencies:**\n\n    *   **Frontend:**\n        ```bash\n        cd UrlShortner\n        npm install\n        ```\n    *   **Backend:**\n        ```bash\n        cd ../server\n        npm install\n        ```\n\n## Configuration\n\n1.  **Environment Variables:**\n\n    *   Create a `.env` file in the root directory (if it doesn't exist - it's listed as a key file so assumed it does exist).  Refer to the provided `.env` file for the required variables.\n    *   Set the following environment variables:\n        *   `PORT`: The port the backend server will run on (e.g., `5000`).\n        *   `MONGO_URI`: The MongoDB connection string (e.g., `mongodb://localhost:27017/urlshortener`). You might need to create a MongoDB database if you do not have one. Set it in `.env` file\n\n2.  **Frontend Configuration:**\n    *  The frontend connects to the backend API.  Ensure the `API_ENDPOINT` in `UrlShortner/src/App.jsx` (or similar file) points to the correct backend URL (e.g., `http://localhost:5000/api/url/shorten`).\n\n## Usage\n\n1.  **Start the backend server:**\n    ```bash\n    cd server\n    npm start\n    ```\n    (Or use `nodemon` for automatic restarts during development: `npm run dev` - you'll need to check `server/package.json` scripts.)\n\n2.  **Start the frontend development server:**\n    ```bash\n    cd UrlShortner\n    npm run dev\n    ```\n    (This likely uses Vite. If it uses Create React App, the command will be `npm start`.)\n\n3.  **Open the application in your browser:**\n    Visit the URL provided by the frontend development server (usually `http://localhost:5173` or similar).\n\n4.  **Enter a URL and click \"Shorten URL\".** The application will generate a shortened URL.\n\n## API Reference\n\nThe backend provides a RESTful API for URL shortening and retrieval.\n\n*   **`POST /api/url/shorten`**\n    *   Description: Creates a shortened URL for a given long URL.\n    *   Request Body:\n        ```json\n        {\n            \"longUrl\": \"https://www.example.com/very/long/url\"\n        }\n        ```\n    *   Response:\n        ```json\n        {\n            \"originalUrl\": \"https://www.example.com/very/long/url\",\n            \"shortUrl\": \"http://localhost:5000/XXXXXX\",\n            \"urlCode\": \"XXXXXX\"\n        }\n        ```\n    *   Error Responses:\n        *   `400 Bad Request`:  If the `longUrl` is missing or invalid.\n        *   `500 Internal Server Error`: For unexpected server errors.\n\n*   **`GET /:urlCode`**\n    *   Description: Redirects to the original URL based on the provided `urlCode`.\n    *   Parameters:\n        *   `urlCode`: The unique code associated with the shortened URL.\n    *   Response:\n        *   `302 Found`:  Redirects to the original URL.  (May be 301 depending on implementation.)\n    *   Error Responses:\n        *   `404 Not Found`: If the `urlCode` is not found in the database.\n        *   `500 Internal Server Error`: For unexpected server errors.\n\n## Tests\n\n*(Placeholder: Add information about the project's testing suite, including instructions on how to run the tests.  This project seems to lack formal testing based on the file structure.  If tests exist, modify this section accordingly.)*\n\nNo automated tests are currently implemented in this project. Consider adding unit and integration tests to improve code quality and maintainability.\n\n## Deployment\n\n1.  **Backend Deployment:**\n\n    *   Deploy the Node.js/Express backend to a hosting platform like Heroku, AWS Elastic Beanstalk, or Google Cloud Run.\n    *   Configure the environment variables (`PORT`, `MONGO_URI`) on the hosting platform.\n    *   Ensure that the backend server is accessible via a public URL.\n\n2.  **Frontend Deployment:**\n\n    *   Build the React frontend for production:\n        ```bash\n        cd UrlShortner\n        npm run build\n        ```\n    *   Deploy the contents of the `dist` directory (or similar output directory from the build process) to a static hosting service like Netlify, Vercel, or AWS S3.\n    *   Update the `API_ENDPOINT` in the frontend configuration to point to the deployed backend URL.\n\n## Contributing\n\nContributions are welcome!  Please follow these steps:\n\n1.  Fork the repository.\n2.  Create a new branch for your feature or bug fix.\n3.  Make your changes and commit them with descriptive commit messages.\n4.  Push your changes to your forked repository.\n5.  Submit a pull request to the main repository.\n\n## License\n\nThis project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.\n",
-    "change_summary": "This is a URL shortening application built with a React frontend and a Node.js/Express backend. It allows users to shorten long URLs and redirects to the original URL when the shortened URL is visited. It also provides QR code generation for the shortened URLs. The backend uses MongoDB to store URL mappings.",
-    "key_features": [
-        "URL Shortening and Redirection",
-        "QR Code Generation",
-        "REST API for programmatic access"
-    ],
-    "setup_steps": [
-        "Clone the repository: `git clone https://github.com/ZaidP101/ReadMePilot`",
-        "Install frontend dependencies: `cd UrlShortner && npm install`",
-        "Install backend dependencies: `cd server && npm install`",
-        "Configure environment variables in `.env` (MONGO_URI, PORT).",
-        "Start the backend server: `cd server && npm start`",
-        "Start the frontend development server: `cd UrlShortner && npm run dev`"
-    ]
-}
-```
+# URL Shortener
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A simple URL shortening service built with Node.js and React.
+
+## Description
+
+This project provides a user-friendly interface for shortening long URLs. It utilizes a Node.js backend with Express.js to handle API requests and MongoDB for storing URL mappings. The frontend is built with React to provide a dynamic and responsive user experience. The application is containerized using Docker for easy deployment and scalability.
+
+## Features
+
+*   **URL Shortening:** Create short, unique URLs from long URLs.
+*   **Custom Alias (Future Enhancement):** (Planned) Allow users to specify a custom alias for their shortened URLs.
+*   **URL Redirection:** Redirect users to the original URL when they access the shortened URL.
+*   **Analytics (Future Enhancement):** (Planned) Track the number of clicks and other analytics for each shortened URL.
+*   **Dockerized Deployment:** Easily deploy the application using Docker.
+
+## Screenshots/Demos
+
+_(Placeholder - Add screenshots or GIFs here to showcase the UI)_
+
+## Installation
+
+1.  **Clone the repository:**
+    bash
+    git clone https://github.com/ZaidP101/ReadMePilot.git
+    cd ReadMePilot
+    
+
+## Configuration
+
+1.  **Environment Variables:**
+
+    Create a `.env` file in the root directory. Refer to the `.env` file in the repository (if available) or the following example:
+
+    
+    PORT=3000 # Backend server port
+    MONGODB_URI=mongodb://localhost:27017/urlshortener # MongoDB connection URI
+    BASE_URL=http://localhost:3000 # Base URL for the application (for generating shortened URLs)
+    
+
+    *Adjust `BASE_URL` to your deployed domain or IP address.*
+
+2.  **Frontend Configuration:**
+    *   Navigate to the `UrlShortner` directory.
+    *   The API endpoint in `UrlShortner/src/App.jsx` is configured using environment variables, so ensure `VITE_API_ENDPOINT` is set correctly:
+    
+    To set the env variable, create or edit `.env.local` in the `UrlShortner` directory, like so:
+    
+    
+    VITE_API_ENDPOINT=http://localhost:3000/api/shorten
+    
+    
+    *Ensure this matches your backend url.*
+
+## Usage
+
+1.  **Build and Run with Docker:**
+    bash
+    docker-compose up --build
+    
+
+    This command builds the Docker image and starts the containers.
+
+2.  **Access the Application:**
+
+    Open your web browser and navigate to the frontend application (usually at `http://localhost:5173` if running locally with the default Vite configuration). You can then enter a long URL and generate a shortened URL.
+
+## API Reference
+
+### `POST /api/shorten`
+
+*   **Description:** Creates a shortened URL.
+*   **Request Body:**
+    
+    
+    {
+      "longUrl": "https://www.example.com/a-very-long-url"
+    }
+    
+    
+*   **Response:**
+    
+    
+    {
+      "originalUrl": "https://www.example.com/a-very-long-url",
+      "shortUrl": "http://localhost:3000/XXXXXX" // XXXXXX is the unique short code
+    }
+    
+    
+
+### `GET /{shortCode}`
+
+*   **Description:** Redirects to the original URL based on the short code.
+*   **Response:**
+    *   HTTP 302 Redirect to the original URL.
+
+## Tests
+
+_(Placeholder - Add information about running tests here)_
+
+## Deployment
+
+1.  **Docker Deployment:**
+
+    The application is designed to be deployed using Docker. You can deploy it to various platforms like:
+    *   **Docker Hub:** Push the Docker image to Docker Hub and deploy it on any server with Docker installed.
+    *   **Cloud Platforms:** Deploy to cloud platforms like AWS, Google Cloud, or Azure using their container services (e.g., AWS ECS, Google Kubernetes Engine, Azure Container Instances).
+    *   **Heroku:** Use Heroku's container deployment feature to deploy the Docker image.
+
+## Contributing
+
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Make your changes and commit them.
+4.  Submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+**ZAID PATEL Test Completed**
